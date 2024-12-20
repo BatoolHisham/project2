@@ -1,0 +1,45 @@
+Array
+(
+    [name] => tala
+    [phone] => 0777054100
+    [location] => Medicin
+    [total_price] => 1
+    [payment_method] => Click
+    [basket_items] => [{"id":3,"name":"kashkawan","price":0.5,"image":"../images/milkbar-menu/kashkawan.jpg","quantity":2}]
+)
+Array
+(
+    [name] => tala
+    [phone] => 0777054100
+    [location] => Medicin
+    [total_price] => 1
+    [payment_method] => Click
+    [basket_items] => [{"id":3,"name":"kashkawan","price":0.5,"image":"../images/milkbar-menu/kashkawan.jpg","quantity":2}]
+)
+Array
+(
+    [name] => BATOOL
+    [phone] => 0777062401
+    [location] => IT
+    [total_price] => 1
+    [payment_method] => Cash
+    [basket_items] => [{"id":3,"name":"kashkawan","price":0.5,"image":"../images/milkbar-menu/kashkawan.jpg","quantity":2}]
+)
+Array
+(
+    [name] => BATOOL
+    [phone] => 0777062401
+    [location] => IT
+    [total_price] => 1
+    [payment_method] => Cash
+    [basket_items] => [{"id":3,"name":"kashkawan","price":0.5,"image":"../images/milkbar-menu/kashkawan.jpg","quantity":2}]
+)
+Array
+(
+    [name] => BATOOL
+    [phone] => 0777062401
+    [location] => IT
+    [total_price] => 1
+    [payment_method] => Click
+    [basket_items] => [{"id":3,"name":"kashkawan","price":0.5,"image":"../images/milkbar-menu/kashkawan.jpg","quantity":2}]
+)
