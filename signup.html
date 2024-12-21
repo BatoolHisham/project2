@@ -17,35 +17,15 @@
 
 <body class="signup-page">
 
-    <div id="slider" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <!-- Carousel items for image slideshow -->
-        </div>
-    </div>
     <!-- Navbar Header -->
     <header>
         <div class="container">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#main">
+                    <a class="navbar-brand" href="index.html">
                         <img src="./images/delivery-man.png" width="70px" alt="">
                     </a>
-                    <h4 class="special-header" style="color: black;" > JU-Delivery</h4>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="index.html"></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link ms-auto d-flex" href="./login.html"></a>
-                            </li>
-                        </ul>
-                    </div>
+                    <h4 class="special-header" style="color: black;">JU-Delivery</h4>
                 </div>
             </nav>
         </div>
@@ -53,20 +33,20 @@
 
     <!-- Signup Form -->
     <section class="container d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 56px);">
-        <form id="signupForm" action="signUp.php" method="post" class="p-4 bg-white shadow rounded" style="width: 100%; max-width: 400px;">
+        <form id="signupForm" class="p-4 bg-white shadow rounded" style="width: 100%; max-width: 400px;">
             <h1 class="text-center mb-4">SignUp</h1>
             <div class="mb-3">
-                <input type="text" class="form-control custom-input" id="phone" placeholder="Phone Number" required />
+                <input type="text" class="form-control custom-input" id="phone" name="phone" placeholder="Phone Number" required />
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control custom-input" id="password" placeholder="Password" required />
+                <input type="password" class="form-control custom-input" id="password" name="password" placeholder="Password" required />
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control custom-input" id="confirmPassword" placeholder="Confirm Password" required />
+                <input type="password" class="form-control custom-input" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
             </div>
             <div class="mb-3">
                 <label for="restaurant" class="form-label">Select Your Restaurant</label>
-                <select id="restaurantSelection" class="form-control">
+                <select id="restaurantSelection" class="form-control" required>
                     <option value="" disabled selected>Select a restaurant</option>
                     <option value="1">IT Milkbar</option>
                     <option value="2">Medicine Milkbar</option>
@@ -75,13 +55,10 @@
                     <option value="5">Business Saj</option>
                     <option value="6">Agriculture Saj</option>
                 </select>
-                
             </div>
             <button type="submit" class="btn Custom-secondary w-100">Submit</button>
             <div class="text-center mt-3">
-                <p>Already have an account? 
-                    <a href="./login.html" class="Custom-primery">Log In</a>
-                </p>
+                <p>Already have an account? <a href="./login.html" class="Custom-primery">Log In</a></p>
             </div>
         </form>
     </section>
@@ -91,44 +68,46 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission for now
-    const phone = document.getElementById('phone').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const selectedRestaurant = document.getElementById('restaurantSelection').value;
+        document.getElementById('signupForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-    if (password !== confirmPassword) {
-        alert('Passwords do not match!');
-        return; // Prevent form submission if passwords do not match
-    }
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const restaurantSelection = document.getElementById('restaurantSelection').value;
 
-    // Send form data to the server using fetch
-    fetch('signUp.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            phone: phone,
-            password: password,
-            restaurantSelection: selectedRestaurant
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            window.location.href = './login.html'; // Redirect to login page
-        } else {
-            alert(data.message); // Display an error message
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred.');
-    });
-});
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
 
+            try {
+                const response = await fetch('signUp.php', { // Ensure file name matches
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        phone: phone,
+                        password: password,
+                        restaurantSelection: restaurantSelection,
+                    }),
+                });
+
+                const text = await response.text(); // Log raw response for debugging
+                console.log('Raw response:', text);
+
+                const result = JSON.parse(text); // Parse JSON response
+                if (result.status === 'success') {
+                    alert(result.message);
+                    localStorage.setItem('selectedRestaurant', restaurantSelection);
+                    window.location.href = 'login.html'; // Redirect on success
+                } else {
+                    alert(result.message); // Show error from server
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An unexpected error occurred. Please try again.');
+            }
+        });
     </script>
 </body>
 
